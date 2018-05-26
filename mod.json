@@ -11,9 +11,15 @@
   "DLLEntryPoint": "ShopSeller.ShopSeller.Init",
   "DependsOn": [],
   "ConflictsWith": [],
-  
+
   "Settings": {
     "shiftKeyModifierActive": true,
-    "shiftKeySellAmount": 10
+    "shiftKeySellAmount": 10,
+
+    "ctrlKeyModifierActive": false,
+    "ctrlKeySellAmount": 25,
+
+    "ctrlAndShiftKeyCombinationModifierActive": false,
+    "ctrlAndShiftKeyCombinationSellAmount": 1000
   }
 }

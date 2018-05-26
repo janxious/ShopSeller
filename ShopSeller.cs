@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using BattleTech;
 using BattleTech.UI;
@@ -41,22 +43,34 @@ namespace ShopSeller
                 SG_Shop_Screen __instance)
             {
                 var shiftHeld = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift);
-                Logger.LogLine($"shift helf: {shiftHeld}");
+                var ctrlHeld = Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl);
+                var ctrlAndShiftHeld = shiftHeld && ctrlHeld;
+                Logger.LogLine($"shift held: {shiftHeld}\nctrl held: {ctrlHeld}\nctrlshift held: {ctrlAndShiftHeld}");
                 var selectedController = Traverse.Create(__instance).Field("selectedController")
                     .GetValue<ListElementController_BASE>();
                 var selectedControllerIsPresent = selectedController != null;
                 var isInSellingState =
                     ! Traverse.Create(__instance).Field("isInBuyingState").GetValue<bool>();
-                if (button == "Capitalism" && selectedControllerIsPresent && isInSellingState && shiftHeld)
+                if (button == "Capitalism" && selectedControllerIsPresent && isInSellingState && (shiftHeld || ctrlHeld))
                 {
+                    var sellAmounts = new List<int>
+                    {
+                        ModSettings.CtrlAndShiftKeyCombinationModifierActive && ctrlAndShiftHeld ? ModSettings.CtrlAndShiftKeyCombinationSellAmount : 0,
+                        ModSettings.CtrlKeyModifierActive && ctrlHeld ? ModSettings.CtrlKeySellAmount : 0,
+                        ModSettings.ShiftKeyModifierActive && shiftHeld ? ModSettings.ShiftKeySellAmount : 0
+                    };
+                    var maxToSell = sellAmounts.Max();
+                    Logger.LogLine($"ctrlshift active: {ModSettings.CtrlAndShiftKeyCombinationModifierActive}\namount: {ModSettings.CtrlAndShiftKeyCombinationSellAmount}");
+                    Logger.LogLine($"ctrl active: {ModSettings.CtrlKeyModifierActive}\namount: {ModSettings.CtrlKeySellAmount}");
+                    Logger.LogLine($"shift active: {ModSettings.ShiftKeyModifierActive}\namount: {ModSettings.ShiftKeySellAmount}");
+                    Logger.LogLine($"sell amount: {sellAmounts.ToArray()}");
+                    Logger.LogLine($"max: {maxToSell}");
                     var shopDefItem = selectedController.shopDefItem;
-                    for (var i = 0; i < shopDefItem.Count && i < ModSettings.ShiftKeySellAmount; i++)
+                    for (var i = 0; i < shopDefItem.Count && i < maxToSell; i++)
                     {
                         Logger.LogLine($"selling 1 of {shopDefItem.ID}");
                         __instance.SellCurrentSelection();
                     }
-                    Logger.LogLine($"active: {ModSettings.ShiftKeyModifierActive}\namount: {ModSettings.ShiftKeySellAmount}");
-                    
                     return false;
                 }
                 return true;
