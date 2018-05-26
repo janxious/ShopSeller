@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Reflection;
+using BattleTech;
 using BattleTech.UI;
 using Harmony;
 using Newtonsoft.Json;
@@ -41,13 +42,21 @@ namespace ShopSeller
             {
                 var shiftHeld = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift);
                 Logger.LogLine($"shift helf: {shiftHeld}");
-                var selectedControllerIsPresent =
-                    Traverse.Create(__instance).Field("selectedController").GetValue() != null;
+                var selectedController = Traverse.Create(__instance).Field("selectedController")
+                    .GetValue<ListElementController_BASE>();
+                var selectedControllerIsPresent = selectedController != null;
                 var isInSellingState =
                     ! Traverse.Create(__instance).Field("isInBuyingState").GetValue<bool>();
                 if (button == "Capitalism" && selectedControllerIsPresent && isInSellingState && shiftHeld)
                 {
+                    var shopDefItem = selectedController.shopDefItem;
+                    for (var i = 0; i < shopDefItem.Count && i < ModSettings.ShiftKeySellAmount; i++)
+                    {
+                        Logger.LogLine($"selling 1 of {shopDefItem.ID}");
+                        __instance.SellCurrentSelection();
+                    }
                     Logger.LogLine($"active: {ModSettings.ShiftKeyModifierActive}\namount: {ModSettings.ShiftKeySellAmount}");
+                    
                     return false;
                 }
                 return true;
