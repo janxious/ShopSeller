@@ -32,7 +32,7 @@ Setting | Type | Default | Description
 `ctrlKeyModifierActive` | `bool` | `false` | ctrl key modifier is enabled when clicking the sell button in shop
 `ctrlKeySellAmount` | `int` | 25 | sell this many of the selected item when ctrl key is held and sell button pressed (disabled by default)
 `ctrlAndShiftKeyCombinationModifierActive` | `bool` | `false` | ctrl+shift keys modifier is enabled when clicking the sell button in shop
-`ctrlAndShiftKeyCombinationSellAmount` | `int` | 1000 | sell this many of the selected item when shift+ctrl keys are held and sell button pressed
+`ctrlAndShiftKeyCombinationSellAmount` | `int` | 1000 | sell this many of the selected item when shift+ctrl keys are held and sell button pressed (disabled by default)
 
 ## Special Thanks
 
