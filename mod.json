@@ -1,0 +1,19 @@
+﻿{
+  "Name": "ShopSeller",
+  "Enabled": true,
+
+  "Version": "0.1.0",
+
+  "Author": "janxious",
+  "Website": "https://github.com/janxious/ShopSeller",
+
+  "DLL": "ShopSeller.dll",
+  "DLLEntryPoint": "ShopSeller.ShopSeller.Init",
+  "DependsOn": [],
+  "ConflictsWith": [],
+  
+  "Settings": {
+    "shiftKeyModifierActive": true,
+    "shiftKeySellAmount": 10
+  }
+}
