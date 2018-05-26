@@ -1,14 +1,16 @@
 ﻿using System;
 using System.IO;
+using static ShopSeller.ShopSeller;
 
 namespace ShopSeller
 {
     public class Logger
     {
+        private static string LogFilePath => $"{ModDirectory}/ShopSeller.log";
+
         public static void LogError(Exception ex)
         {
-            var filePath = $"{ShopSeller.ModDirectory}/ShopSeller.log";
-            using (var writer = new StreamWriter(filePath, true))
+            using (var writer = new StreamWriter(LogFilePath, true))
             {
                 writer.WriteLine($"Message: {ex.Message}");
                 writer.WriteLine($"StackTrace: {ex.StackTrace}");
@@ -18,8 +20,8 @@ namespace ShopSeller
 
         public static void LogLine(String line)
         {
-            var filePath = $"{ShopSeller.ModDirectory}/ShopSeller.log";
-            using (var writer = new StreamWriter(filePath, true))
+            if (!ModSettings.debug) return;
+            using (var writer = new StreamWriter(LogFilePath, true))
             {
                 writer.WriteLine(line);
                 WriteLogFooter(writer);

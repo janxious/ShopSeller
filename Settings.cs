@@ -6,6 +6,10 @@ namespace ShopSeller
     // into the C# variables used by the mod.
     public class Settings
     {
+        // loggers will spit out non-exception information
+        public bool debug = false;
+        
+        // shift key
         public bool shiftKeyModifierActive = false;
         public bool ShiftKeyModifierActive => shiftKeyModifierActive;
 
