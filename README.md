@@ -7,13 +7,12 @@ BattleTech Mod (using [BTML](https://github.com/Mpstark/BattleTechModLoader) and
 
 You know how you have like a million jump jets and you want to sell some of them. Well, here we are.
 
-WIP
-
 ## Features
-- Change the color of direct line of fire indicator drawn between the currently controlled mech and enemy targets
-- Change the color of indirect line of fire indicator drawn between the currently controlled mech and enemy targets
-- Add dashes to the indirect line of fire indicator drawn between the currently controlled mech and enemy targets
-- Change the color of the line of fire indicator for obstructed targets on the attacker and target sides of the obstruction
+
+- Sell more than one thing at once, and the amount is configured in `mod.json`
+- - shift + sell button
+- - ctrl + sell button
+- - shift+ctrl + sell button
 
 ## Download
 Downloads can be found on [Github](https://github.com/janxious/ShopSeller/releases).
@@ -28,8 +27,12 @@ Downloads can be found on [Github](https://github.com/janxious/ShopSeller/releas
 
 Setting | Type | Default | Description
 --- | --- | --- | ---
-`directLineOfFireArcActive` | `bool` | `false` | change the look of the direct firing line arc
-`directLineOfFireArcColor` | `float[4]` | `[0, 1, 0.5, 1]` (light blue) | the color of the direct firing line arc. The default in vanilla is `[1, 0, 0, 1]` (red).
+`shiftKeyModifierActive` | `bool` | `true` | shift key modifier is enabled when clicking the sell button in shop
+`shiftKeySellAmount` | `int` | 10 | sell this many of the selected item when shift key is held and sell button pressed
+`ctrlKeyModifierActive` | `bool` | `false` | ctrl key modifier is enabled when clicking the sell button in shop
+`ctrlKeySellAmount` | `int` | 25 | sell this many of the selected item when ctrl key is held and sell button pressed (disabled by default)
+`ctrlAndShiftKeyCombinationModifierActive` | `bool` | `false` | ctrl+shift keys modifier is enabled when clicking the sell button in shop
+`ctrlAndShiftKeyCombinationSellAmount` | `int` | 1000 | sell this many of the selected item when shift+ctrl keys are held and sell button pressed
 
 ## Special Thanks
 
