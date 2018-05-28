@@ -12,7 +12,7 @@ using InControl;
 
 namespace ShopSeller
 {
-    
+
     public class ShopSeller
     {
         internal static Settings ModSettings = new Settings();
@@ -70,9 +70,9 @@ namespace ShopSeller
         [HarmonyPatch(typeof(SG_Shop_Screen), "ReceiveButtonPress")]
         public static class SG_Shop_ReceiveButtonPressPatch
         {
-            private static int numToSell = 0;
-            //private static int numToBuy = 0;
+            private static int numToBuyOrSell = 0;
             private static SG_Shop_Screen shopScreen;
+            const int BigNumberForApproxInfinity = 1_000_000_000;
 
             static bool Prefix(
                 string button,
@@ -86,65 +86,109 @@ namespace ShopSeller
                 var selectedController = Traverse.Create(__instance).Field("selectedController").GetValue<ListElementController_BASE>();
                 var selectedControllerIsPresent = selectedController != null;
                 var isInBuyingState = Traverse.Create(__instance).Field("isInBuyingState").GetValue<bool>();
-                var isInSellingState = !isInBuyingState;
-                if (button == "Capitalism" && selectedControllerIsPresent && isInSellingState && (shiftHeld || ctrlHeld))
+                var isBuySellButton = button == "Capitalism";
+                if (!isBuySellButton || !selectedControllerIsPresent)
                 {
-                    var sellAmounts = new List<int>
-                    {
-                        ModSettings.CtrlAndShiftKeyCombinationModifierActive && ctrlAndShiftHeld ? ModSettings.CtrlAndShiftKeyCombinationSellAmount : 0,
-                        ModSettings.CtrlKeyModifierActive && ctrlHeld ? ModSettings.CtrlKeySellAmount : 0,
-                        ModSettings.ShiftKeyModifierActive && shiftHeld ? ModSettings.ShiftKeySellAmount : 0
-                    };
-                    var maxModifierSellAmount = sellAmounts.Max();
-                    var shopDefItem = selectedController.shopDefItem;
-                    var maxToSell = new List<int> {maxModifierSellAmount, shopDefItem.Count}.Min();
-                    var cbillValue = selectedController.GetCBillValue();
-                    var minimumThreshold = Traverse.Create(__instance).Field("simState").GetValue<SimGameState>().Constants.Finances.ShopWarnBeforeSellingPriceMinimum;;
-                    var cbillTotal = cbillValue * maxToSell;
-                    Logger.Debug($"sell amount: {sellAmounts.ToArray()}");
-                    Logger.Debug($"max: {maxToSell}");
+                    Logger.Debug("Different button, no need to do anything");
+                    ResetVariables();
+                    return true;
+                }
+
+                var amounts = new List<int>
+                {
+                    ModSettings.CtrlAndShiftKeyCombinationModifierActive && ctrlAndShiftHeld ? ModSettings.CtrlAndShiftKeyCombinationAmount : 0,
+                    ModSettings.CtrlKeyModifierActive && ctrlHeld ? ModSettings.CtrlKeyAmount : 0,
+                    ModSettings.ShiftKeyModifierActive && shiftHeld ? ModSettings.ShiftKeyAmount : 0,
+                    1 // no modifier keys
+                };
+                var maxModifierAmount = amounts.Max();
+                selectedController.RefreshInfo();
+                var shopDefItem = selectedController.shopDefItem;
+                var quantity = shopDefItem.IsInfinite ? BigNumberForApproxInfinity : selectedController.quantity;
+                Logger.Debug($"raw count: {selectedController.quantity}");
+                Logger.Debug($"count: {quantity}");
+                var numberToTrade = new List<int> {maxModifierAmount, quantity}.Min();
+                Logger.Debug($"how many? {numberToTrade}");
+                numToBuyOrSell = numberToTrade;
+
+                var simGameState = Traverse.Create(__instance).Field("simState").GetValue<SimGameState>();
+                var minimumThreshold = simGameState.Constants.Finances.ShopWarnBeforeSellingPriceMinimum;
+                amounts.ForEach(delegate(int amount) { Logger.Debug($"{amount}"); });
+                Logger.Debug($"max: {numToBuyOrSell}");
+                Logger.Debug($"threshold: {minimumThreshold}");
+
+                if (isInBuyingState)
+                {
+                    var cbillValue = simGameState.CurSystem.Shop.GetPrice(shopDefItem, Shop.PurchaseType.Normal);
+                    var cbillTotal = cbillValue * numToBuyOrSell;
                     Logger.Debug($"item value: {cbillValue}");
                     Logger.Debug($"item total: {cbillTotal}");
-                    Logger.Debug($"threshold: {minimumThreshold}");
-                    numToSell = maxToSell;
+                    if (cbillTotal > minimumThreshold && ModSettings.WarnWhenBuyingAbovePriceMinimum)
+                    {
+                        GenericPopupBuilder.
+                            Create("Confirm?", $"Purchase {numToBuyOrSell} for {SimGameState.GetCBillString(cbillTotal)}?").
+                            AddButton("Cancel", null, true, (PlayerAction) null).
+                            AddButton("Accept", (Action) BuyCurrent, true, (PlayerAction) null).
+                            CancelOnEscape().
+                            AddFader(LazySingletonBehavior<UIManager>.Instance.UILookAndColorConstants.PopupBackfill, 0.0f, true).
+                            Render();
+                    }
+                    else
+                    {
+                        BuyCurrent();
+                    }
+                    return false;
+                } else {
+                    var cbillValue = selectedController.GetCBillValue();
+                    var cbillTotal = cbillValue * numToBuyOrSell;
+                    Logger.Debug($"item value: {cbillValue}");
+                    Logger.Debug($"item total: {cbillTotal}");
                     if (cbillTotal > minimumThreshold && ModSettings.WarnWhenSellingAbovePriceMinimum)
                     {
-                        GenericPopupBuilder.Create(
-                            "Confirm?",
-                            string.Format("Sell {0} of {1} for {2}?", numToSell, ,(object) SimGameState.GetCBillString(cbillTotal)))
-                            .AddButton("Cancel", (Action) null, true, (PlayerAction) null)
-                            .AddButton("Accept", new Action(SellCurrent), true, (PlayerAction) null).CancelOnEscape()
-                            .AddFader(LazySingletonBehavior<UIManager>.Instance.UILookAndColorConstants.PopupBackfill,
-                                0.0f,
-                                true).Render();
+                        GenericPopupBuilder.
+                            Create("Confirm?", $"Sell {numToBuyOrSell} for {SimGameState.GetCBillString(cbillTotal)}?").
+                            AddButton("Cancel", (Action) null, true, (PlayerAction) null).
+                            AddButton("Accept", (Action) SellCurrent, true, (PlayerAction) null).
+                            CancelOnEscape().
+                            AddFader(LazySingletonBehavior<UIManager>.Instance.UILookAndColorConstants.PopupBackfill, 0.0f, true).
+                            Render();
                     }
                     else
                     {
                         SellCurrent();
                     }
-                    ResetVariables();
                     return false;
                 }
-                ResetVariables();
-                return true;
             }
 
             static void ResetVariables()
             {
-                numToSell = 0;
-                //numToBuy = 0;
+                numToBuyOrSell = 0;
                 shopScreen = null; // clear ref for GC
             }
+
+            static void BuyCurrent()
+            {
+                Logger.Debug($"buying: {numToBuyOrSell}");
+                while (numToBuyOrSell > 0)
+                {
+                    Logger.Debug($"{numToBuyOrSell}");
+                    numToBuyOrSell--;
+                    shopScreen.BuyCurrentSelection();
+                }
+                ResetVariables();
+            }
+
             static void SellCurrent()
             {
-                while (numToSell > 0)
+                Logger.Debug($"selling: {numToBuyOrSell}");
+                while (numToBuyOrSell > 0)
                 {
-                    numToSell--;
-                }
-                for (var i = 0; i < numToSell; i++)
-                {
+                    Logger.Debug($"{numToBuyOrSell}");
+                    numToBuyOrSell--;
                     shopScreen.SellCurrentSelection();
                 }
+                ResetVariables();
             }
         }
     }

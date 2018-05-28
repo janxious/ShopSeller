@@ -14,24 +14,24 @@ namespace ShopSeller
         public bool shiftKeyModifierActive = true;
         public bool ShiftKeyModifierActive => shiftKeyModifierActive;
 
-        public int shiftKeySellAmount = 10;
-        public int ShiftKeySellAmount => shiftKeySellAmount;
+        public int shiftKeyAmount = 10;
+        public int ShiftKeyAmount => shiftKeyAmount;
         #endregion shift key
 
         #region ctrl key
         public bool ctrlKeyModifierActive = false;
         public bool CtrlKeyModifierActive => ctrlKeyModifierActive;
 
-        public int ctrlKeySellAmount = 0;
-        public int CtrlKeySellAmount => ctrlKeySellAmount;
+        public int ctrlKeyAmount = 0;
+        public int CtrlKeyAmount => ctrlKeyAmount;
         #endregion ctrl key
 
         #region shift and ctrl keys together
         public bool ctrlAndShiftKeyCombinationModifierActive = false;
         public bool CtrlAndShiftKeyCombinationModifierActive => ctrlAndShiftKeyCombinationModifierActive;
 
-        public int ctrlAndShiftKeyCombinationSellAmount = 0;
-        public int CtrlAndShiftKeyCombinationSellAmount => ctrlAndShiftKeyCombinationSellAmount;
+        public int ctrlAndShiftKeyCombinationAmount = 0;
+        public int CtrlAndShiftKeyCombinationAmount => ctrlAndShiftKeyCombinationAmount;
         #endregion shift and ctrl keys together
         
         #region warnings for buy/sell cbill amounts

@@ -2,7 +2,7 @@
   "Name": "ShopSeller",
   "Enabled": true,
 
-  "Version": "0.1.0",
+  "Version": "0.2.0",
 
   "Author": "janxious",
   "Website": "https://github.com/janxious/ShopSeller",
@@ -17,18 +17,16 @@
   ],
 
   "Settings": {
-    "debug": true,
-
     "shiftKeyModifierActive": true,
-    "shiftKeySellAmount": 10,
+    "shiftKeyAmount": 10,
 
     "ctrlKeyModifierActive": false,
-    "ctrlKeySellAmount": 25,
+    "ctrlKeyAmount": 25,
 
     "ctrlAndShiftKeyCombinationModifierActive": false,
-    "ctrlAndShiftKeyCombinationSellAmount": 1000,
-    
+    "ctrlAndShiftKeyCombinationAmount": 1000,
+
     "warnWhenBuyingAbovePriceMinimum": true,
-    "warnWhenSellingAbovePriceMinimum": true
+    "warnWhenSellingAbovePriceMinimum": false
   }
 }
