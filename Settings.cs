@@ -33,5 +33,15 @@ namespace ShopSeller
         public int ctrlAndShiftKeyCombinationSellAmount = 0;
         public int CtrlAndShiftKeyCombinationSellAmount => ctrlAndShiftKeyCombinationSellAmount;
         #endregion shift and ctrl keys together
+        
+        #region warnings for buy/sell cbill amounts
+
+        public bool warnWhenBuyingAbovePriceMinimum = false;
+        public bool WarnWhenBuyingAbovePriceMinimum => warnWhenBuyingAbovePriceMinimum;
+
+        public bool warnWhenSellingAbovePriceMinimum = false;
+        public bool WarnWhenSellingAbovePriceMinimum => warnWhenSellingAbovePriceMinimum;
+
+        #endregion warnings for buy/sell cbill amounts
     }
 }

@@ -33,6 +33,8 @@ Setting | Type | Default | Description
 `ctrlKeySellAmount` | `int` | 25 | sell this many of the selected item when ctrl key is held and sell button pressed (disabled by default)
 `ctrlAndShiftKeyCombinationModifierActive` | `bool` | `false` | ctrl+shift keys modifier is enabled when clicking the sell button in shop
 `ctrlAndShiftKeyCombinationSellAmount` | `int` | 1000 | sell this many of the selected item when shift+ctrl keys are held and sell button pressed (disabled by default)
+`warnWhenBuyingAbovePriceMinimum` | `bool` | true | popup a warning when buying multiple items and total bove your set minimum cbill threshold 
+`warnWhenSellingAbovePriceMinimum` | `bool` | false | popup a warning when selling multiple items and total above your set minimum cbill threshold 
 
 ## Special Thanks
 

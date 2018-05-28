@@ -38,6 +38,9 @@
     <Reference Include="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
       <HintPath>..\..\..\Library\Application Support\Steam\steamapps\common\BATTLETECH\BattleTech.app\Contents\Resources\Data\Managed\Assembly-CSharp.dll</HintPath>
     </Reference>
+    <Reference Include="Assembly-CSharp-firstpass, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\..\Library\Application Support\Steam\steamapps\common\BATTLETECH\BattleTech.app\Contents\Resources\Data\Managed\Assembly-CSharp-firstpass.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed">
       <HintPath>..\..\..\Library\Application Support\Steam\steamapps\common\BATTLETECH\BattleTech.app\Contents\Resources\Data\Managed\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -56,6 +59,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="constants\SimGameConstants.json" />
     <Content Include="mod.json" />
     <Content Include="README.md" />
   </ItemGroup>

@@ -12,7 +12,13 @@
   "DependsOn": [],
   "ConflictsWith": [],
 
+  "Manifest": [
+    { "Type": "CombatGameConstants", "Path": "constants", "ShouldMergeJSON": true }
+  ],
+
   "Settings": {
+    "debug": true,
+
     "shiftKeyModifierActive": true,
     "shiftKeySellAmount": 10,
 
@@ -20,6 +26,9 @@
     "ctrlKeySellAmount": 25,
 
     "ctrlAndShiftKeyCombinationModifierActive": false,
-    "ctrlAndShiftKeyCombinationSellAmount": 1000
+    "ctrlAndShiftKeyCombinationSellAmount": 1000,
+    
+    "warnWhenBuyingAbovePriceMinimum": true,
+    "warnWhenSellingAbovePriceMinimum": true
   }
 }

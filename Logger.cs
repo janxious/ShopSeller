@@ -8,7 +8,7 @@ namespace ShopSeller
     {
         private static string LogFilePath => $"{ModDirectory}/ShopSeller.log";
 
-        public static void LogError(Exception ex)
+        public static void Error(Exception ex)
         {
             using (var writer = new StreamWriter(LogFilePath, true))
             {
@@ -18,7 +18,7 @@ namespace ShopSeller
             }
         }
 
-        public static void LogLine(String line)
+        public static void Debug(String line)
         {
             if (!ModSettings.debug) return;
             using (var writer = new StreamWriter(LogFilePath, true))

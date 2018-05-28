@@ -1,0 +1,5 @@
+﻿{
+  "Finances": {
+    "ShopWarnBeforeSellingPriceMinimum": 1000000
+  }
+}
