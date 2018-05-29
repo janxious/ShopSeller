@@ -2,7 +2,7 @@
   "Name": "ShopSeller",
   "Enabled": true,
 
-  "Version": "0.3.0",
+  "Version": "0.3.1",
 
   "Author": "janxious",
   "Website": "https://github.com/janxious/ShopSeller",
@@ -13,7 +13,7 @@
   "ConflictsWith": [],
 
   "Manifest": [
-    { "Type": "CombatGameConstants", "Path": "constants", "ShouldMergeJSON": true }
+    { "Type": "SimGameConstants", "Path": "constants", "ShouldMergeJSON": true }
   ],
 
   "Settings": {
