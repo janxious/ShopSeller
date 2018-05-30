@@ -2,7 +2,7 @@
   "Name": "ShopSeller",
   "Enabled": true,
 
-  "Version": "0.3.1",
+  "Version": "0.4.0",
 
   "Author": "janxious",
   "Website": "https://github.com/janxious/ShopSeller",
@@ -11,10 +11,6 @@
   "DLLEntryPoint": "ShopSeller.ShopSeller.Init",
   "DependsOn": [],
   "ConflictsWith": [],
-
-  "Manifest": [
-    { "Type": "SimGameConstants", "Path": "constants", "ShouldMergeJSON": true }
-  ],
 
   "Settings": {
     "shiftKeyModifierActive": true,
