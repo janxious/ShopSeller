@@ -17,11 +17,8 @@ namespace ShopSeller
     {
         internal static Settings ModSettings = new Settings();
         internal static string ModDirectory;
-
         public static void Init(string directory, string settingsJSON)
         {
-            var harmony = HarmonyInstance.Create("com.joelmeador.ShopSeller");
-            harmony.PatchAll(Assembly.GetExecutingAssembly());
             ModDirectory = directory;
             try
             {
@@ -32,6 +29,8 @@ namespace ShopSeller
                 Logger.Error(ex);
                 ModSettings = new Settings();
             }
+            var harmony = HarmonyInstance.Create("com.joelmeador.ShopSeller");
+            harmony.PatchAll(Assembly.GetExecutingAssembly());
         }
 
         // By default, the game doesn't mind any key combos with Enter, so
