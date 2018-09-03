@@ -1,5 +1,3 @@
-# This mod is no longer supported as the functionality has roughly been duplicated in v1.2 of the BattleTech game.
-
 # ShopSeller
 
 Make the BattleTech shops less hard/faster to use

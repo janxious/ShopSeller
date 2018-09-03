@@ -2,7 +2,7 @@
   "Name": "ShopSeller",
   "Enabled": true,
 
-  "Version": "0.4.2",
+  "Version": "0.4.3",
 
   "Author": "janxious",
   "Website": "https://github.com/janxious/ShopSeller",
@@ -23,6 +23,8 @@
     "ctrlAndShiftKeyCombinationAmount": 1000,
 
     "warnWhenBuyingAbovePriceMinimum": true,
-    "warnWhenSellingAbovePriceMinimum": false
+    "warnWhenSellingAbovePriceMinimum": false,
+
+    "debug": false
   }
 }

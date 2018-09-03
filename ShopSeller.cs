@@ -87,7 +87,7 @@ namespace ShopSeller
                 SG_Shop_Screen __instance)
             {
                 shopScreen = __instance;
-                var selectedController = Traverse.Create(shopScreen).Field("selectedController").GetValue<ListElementController_BASE>();
+                var selectedController = Traverse.Create(shopScreen).Field("selectedController").GetValue<InventoryDataObject_BASE>();
                 var selectedControllerIsPresent = selectedController != null;
                 var isBuySellButton = button == "Capitalism";
                 if (!isBuySellButton || !selectedControllerIsPresent)
