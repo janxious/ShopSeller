@@ -84,9 +84,11 @@ namespace ShopSeller
 
             static bool Prefix(
                 string button,
-                SG_Shop_Screen __instance)
+                SG_Shop_Screen __instance,
+                SG_Shop_Screen.StoreType ___currentStoreType)
             {
                 shopScreen = __instance;
+                Logger.Debug($"button: {button}"); 
                 var selectedController = Traverse.Create(shopScreen).Field("selectedController").GetValue<InventoryDataObject_BASE>();
                 var selectedControllerIsPresent = selectedController != null;
                 var isBuySellButton = button == "Capitalism";
@@ -132,9 +134,27 @@ namespace ShopSeller
                 Logger.Debug($"max: {numToBuyOrSell}");
                 Logger.Debug($"threshold: {minimumThreshold}");
 
+                
                 if (isInBuyingState)
                 {
-                    var cbillValue = simGameState.CurSystem.Shop.GetPrice(shopDefItem, Shop.PurchaseType.Normal);
+                    int cbillValue;
+                    switch (___currentStoreType)
+                    {
+                        case SG_Shop_Screen.StoreType.SystemStore:
+                            cbillValue = simGameState.CurSystem.SystemShop.GetPrice(shopDefItem, Shop.PurchaseType.Normal);
+                            break;
+                        case SG_Shop_Screen.StoreType.FactionStore:
+                            cbillValue = simGameState.CurSystem.FactionShop.GetPrice(shopDefItem, Shop.PurchaseType.Normal);
+                            break;
+                        case SG_Shop_Screen.StoreType.BlackMarketStore:
+                            cbillValue = simGameState.CurSystem.BlackMarketShop.GetPrice(shopDefItem, Shop.PurchaseType.Normal);
+                            break;
+                        default:
+                            Logger.Debug($"Unable to find shop for item");
+                            cbillValue = 1_000_000_000;
+                            break;
+                    }
+                    
                     var cbillTotal = cbillValue * numToBuyOrSell;
                     Logger.Debug($"item value: {cbillValue}");
                     Logger.Debug($"item total: {cbillTotal}");
