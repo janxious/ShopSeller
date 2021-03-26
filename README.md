@@ -1,3 +1,5 @@
+# This mod is no longer supported an is here for legacy version support and code visibility only.
+
 # ShopSeller
 
 Make the BattleTech shops less hard/faster to use
