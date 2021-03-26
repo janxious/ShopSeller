@@ -1,4 +1,4 @@
-# This mod is no longer supported an is here for legacy version support and code visibility only.
+# This mod is no longer supported. This repo is here for legacy version support and code visibility only.
 
 # ShopSeller
 
